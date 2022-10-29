@@ -6,20 +6,20 @@ import { Application } from './application.entity';
 
 @Injectable()
 export class ApplicationService {
-  constructor(
-    @InjectRepository(Application)
-      private applicationRepository: Repository<Application>,
+    constructor(
+        @InjectRepository(Application)
+        private applicationRepository: Repository<Application>,
     ) {}
 
-  findAll(): Promise<Application[]> {
-    return this.applicationRepository.find();
-  }
+    findAll(): Promise<Application[]> {
+        return this.applicationRepository.find();
+    }
 
-  findOne(id: number): Promise<Application> {
-    return this.applicationRepository.findOneBy({ id });
-  }
+    findOne(id: number): Promise<Application> {
+        return this.applicationRepository.findOneBy({ id });
+    }
 
-  async remove(id: string): Promise<void> {
-    await this.applicationRepository.delete(id);
-  }
+    async remove(id: string): Promise<void> {
+        await this.applicationRepository.delete(id);
+    }
 }
