@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ApplicationModule } from './module/application/application.module';
+import { ApplicationModule } from './application/application.module';
+import { EnvironmentModule } from './environment/environment.module';
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { ApplicationModule } from './module/application/application.module';
             autoLoadEntities: true,
         }),
         ApplicationModule,
+        EnvironmentModule,
     ],
     controllers: [AppController],
     providers: [AppService],
