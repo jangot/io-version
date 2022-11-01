@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Application } from 'src/application/application.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { CreateVersionDto } from './dto/create-version.dto';
 import { UpdateVersionDto } from './dto/update-version.dto';
 import { Version } from './entities/version.entity';
@@ -14,13 +14,12 @@ export class VersionService {
 
         @InjectRepository(Application)
         private readonly applicationRepo: Repository<Application>,
+
+        private dataSource: DataSource
     ) {}
     async create(createVersionDto: CreateVersionDto) {
         const ver = new Version();
-
         ver.version = createVersionDto.version;
-
-        await this.versionRepo.save(ver);
 
         const app = await this.applicationRepo.findOne({
             relations: {
@@ -31,11 +30,25 @@ export class VersionService {
             }
          });
 
-         app.versions.push(ver);
+        const queryRunner = this.dataSource.createQueryRunner();
 
-         await this.applicationRepo.save(app);
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
 
-         return ver;
+        try {
+
+            await queryRunner.manager.save(ver);
+            app.versions.push(ver);
+            await queryRunner.manager.save(app);
+
+            await queryRunner.commitTransaction();
+        } catch (err) {
+            await queryRunner.rollbackTransaction();
+        } finally {
+            await queryRunner.release();
+        };
+
+        return ver;
     }
 
     findAll() {
