@@ -1,4 +1,4 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Param, Render } from '@nestjs/common';
 import { ViewContext } from 'src/decorator/view-context';
 import { ApplicationService } from 'src/module/application/application.service';
 
@@ -17,5 +17,17 @@ export class ApplicationsPageController {
             ctx,
             applications
         };
+    }
+
+    @Get(':name')
+    @Render('application.ejs')
+    async applicationItemPage(@Param('name') name: string, @ViewContext() ctx) {
+        const application = await this.appService.findOneByName(name);
+
+        return {
+            name,
+            application,
+            ctx
+        }
     }
 }

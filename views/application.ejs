@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>IO Versions</title>
+<%- include('partial/bootstrapIncludes') %>
+</head>
+
+<body>
+<%- include('partial/header'); %>
+
+<div class="container-fluid">
+    <h3>Application: <%= name %></h3>
+    <ul>
+    <% for (version of application.versions) { %>
+        <li><%= version.version %></li>
+    <% } %>
+    </ul>
+</div>
+
+<%- include('partial/footer') %>
+</body>
+
+</html>

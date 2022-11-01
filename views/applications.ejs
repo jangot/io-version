@@ -10,7 +10,9 @@
 
 <div class="container-fluid">
     <% for (app of applications) { %>
-        <h3><%= app.name %></h3>
+        <h3>
+            <a href="/applications/<%= app.name %>"><%= app.name %></a>
+        </h3>
         <ul>
             <% for (version of app.versions) { %>
                 <li><%= version.version %></li>

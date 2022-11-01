@@ -29,7 +29,17 @@ export class ApplicationService {
     }
 
     findOne(id: number): Promise<Application> {
-        return this.applicationRepository.findOneBy({ id });
+        return this.applicationRepository.findOne({
+            where: { id },
+            relations: ['versions']
+        });
+    }
+
+    findOneByName(name: string): Promise<Application> {
+        return this.applicationRepository.findOne({
+            where: { name },
+            relations: ['versions']
+        });
     }
 
     async remove(id: string): Promise<void> {
