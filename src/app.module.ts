@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ApplicationModule } from './application/application.module';
@@ -21,6 +22,7 @@ import { create as createDataSource } from './utils/factories/dataSource';
                     entities: [],
                     synchronize: true,
                     autoLoadEntities: true,
+                    namingStrategy: new SnakeNamingStrategy()
                 }
             },
             dataSourceFactory: (options) => createDataSource(options).initialize(),

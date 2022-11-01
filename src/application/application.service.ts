@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Application } from './application.entity';
+import { CreateApplicationDto } from './dto/create-application.dto';
 
 @Injectable()
 export class ApplicationService {
@@ -10,6 +11,14 @@ export class ApplicationService {
         @InjectRepository(Application)
         private applicationRepository: Repository<Application>,
     ) {}
+
+    create(createApplicationDto: CreateApplicationDto): Promise<Application> {
+        const newApp = new Application();
+        newApp.name = createApplicationDto.name;
+        newApp.isActive = createApplicationDto.isActive;
+
+        return this.applicationRepository.save(newApp);
+    }
 
     findAll(): Promise<Application[]> {
         return this.applicationRepository.find();
