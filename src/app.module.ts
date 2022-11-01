@@ -2,19 +2,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ApplicationsPageController } from './controller/applications-page.controller';
 import { ApplicationModule } from './module/application/application.module';
 import { EnvironmentModule } from './module/environment/environment.module';
 import { VersionModule } from './module/version/version.module';
 import { create as createDataSource } from './utils/factories/dataSource';
-// import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
     imports: [
-        // ServeStaticModule.forRoot({
-        //     rootPath: join(__dirname, '..', 'client'),
-        //   }),
         TypeOrmModule.forRootAsync({
             useFactory: () => {
                 return {
@@ -36,7 +32,7 @@ import { create as createDataSource } from './utils/factories/dataSource';
         EnvironmentModule,
         VersionModule,
     ],
-    controllers: [AppController],
+    controllers: [ApplicationsPageController],
     providers: [AppService],
 })
 export class AppModule {}
