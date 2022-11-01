@@ -9,7 +9,14 @@
 <%- include('partial/header'); %>
 
 <div class="container-fluid">
-    <h1>Applications</h1>
+    <% for (app of applications) { %>
+        <h3><%= app.name %></h3>
+        <ul>
+            <% for (version of app.versions) { %>
+                <li><%= version.version %></li>
+            <% } %>
+        </ul>
+    <% } %>
 </div>
 
 <%- include('partial/footer') %>

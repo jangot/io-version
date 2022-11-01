@@ -2,7 +2,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { AppService } from './app.service';
 import { ApplicationsPageController } from './controller/applications-page.controller';
 import { ApplicationModule } from './module/application/application.module';
 import { EnvironmentModule } from './module/environment/environment.module';
@@ -33,6 +32,6 @@ import { create as createDataSource } from './utils/factories/dataSource';
         VersionModule,
     ],
     controllers: [ApplicationsPageController],
-    providers: [AppService],
+    providers: [],
 })
 export class AppModule {}
