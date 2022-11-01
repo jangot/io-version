@@ -6,7 +6,7 @@ import {
     FastifyAdapter,
     NestFastifyApplication,
   } from '@nestjs/platform-fastify';
-import * as handlebars from 'handlebars';
+import * as ejs from 'ejs';
 import { AppModule } from './app.module';
 
 async function readPartials(templatesFolder: string, partialFolder: string) {
@@ -32,14 +32,9 @@ async function bootstrap() {
         root: join(__dirname, '..', 'public'),
         prefix: '/public/',
     });
-
-    const templatesFolder = join(__dirname, '..', 'views');
     app.setViewEngine({
-        engine: { handlebars },
-        templates: templatesFolder,
-        options: {
-            partials: await readPartials(templatesFolder, 'partial'),
-        }
+        engine: { ejs },
+        templates: join(__dirname, '..', 'views')
     });
 
     await app.listen(3000);
