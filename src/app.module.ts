@@ -1,15 +1,20 @@
+// import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ApplicationModule } from './application/application.module';
-import { EnvironmentModule } from './environment/environment.module';
-import { VersionModule } from './version/version.module';
+import { ApplicationModule } from './module/application/application.module';
+import { EnvironmentModule } from './module/environment/environment.module';
+import { VersionModule } from './module/version/version.module';
 import { create as createDataSource } from './utils/factories/dataSource';
+// import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
     imports: [
+        // ServeStaticModule.forRoot({
+        //     rootPath: join(__dirname, '..', 'client'),
+        //   }),
         TypeOrmModule.forRootAsync({
             useFactory: () => {
                 return {
