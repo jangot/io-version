@@ -11,6 +11,8 @@ export class ApplicationController {
 
     @Post()
     async create(@Body() createApplicationDto: CreateApplicationDto) {
+        console.log(createApplicationDto);
+
         return this.appService.create(createApplicationDto);
     }
 

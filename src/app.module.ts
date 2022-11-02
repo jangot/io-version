@@ -13,6 +13,7 @@ import { create as createDataSource } from './utils/factories/dataSource';
         TypeOrmModule.forRootAsync({
             useFactory: () => {
                 return {
+                    logging: true,
                     type: 'postgres',
                     host: 'localhost',
                     port: 5432,

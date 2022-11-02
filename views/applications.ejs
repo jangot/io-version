@@ -3,22 +3,69 @@
 <head>
 <title>IO Versions</title>
 <%- include('partial/bootstrapIncludes') %>
+<script>
+$(() => {
+    $('#createApp button').click(() => {
+        $('#createApp error').hide();
+        const name = $('#createApp input').val();
+
+        const response = fetch('/api/application', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify({
+                name,
+                isActive: true
+            })
+        })
+        .then(() => {
+            location.reload();
+        })
+        .catch(() => {
+            $('#createApp error').show();
+        })
+
+        return false;
+    });
+});
+</script>
 </head>
 
 <body>
 <%- include('partial/header'); %>
 
-<div class="container-fluid">
-    <% for (app of applications) { %>
-        <h3>
-            <a href="/applications/<%= app.name %>"><%= app.name %></a>
-        </h3>
-        <ul>
-            <% for (version of app.versions) { %>
-                <li><%= version.version %></li>
-            <% } %>
-        </ul>
-    <% } %>
+<div class="container-xl">
+    <div class="row">
+        <div class="col">
+        <% for (app of applications) { %>
+            <h3>
+                <a href="/applications/<%= app.name %>"><%= app.name %></a>
+            </h3>
+            <ul>
+                <% for (version of app.versions) { %>
+                    <li><%= version.version %></li>
+                <% } %>
+            </ul>
+        <% } %>
+        </div>
+        <div class="col">
+        <div id="createApp">
+            <div class="mb-3">
+                <label for="appName" class="form-label">Name</label>
+                <input name="name" type="text" class="form-control" id="appName" aria-describedby="appName">
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+            <div style="display: none;" class="text-danger error">Error</div>
+        </div>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
 </div>
 
 <%- include('partial/footer') %>

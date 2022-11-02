@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Version } from 'src/module/version/entities/version.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Environment {
@@ -13,4 +14,7 @@ export class Environment {
 
     @Column()
     orderIndex: number;
+
+    @OneToMany(() => Version, (version) => version.application)
+    versions: Version[]
 }

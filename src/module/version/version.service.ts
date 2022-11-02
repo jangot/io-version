@@ -1,13 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Application } from '../application/application.entity';
+import { Environment } from '../environment/entities/environment.entity';
 import { CreateVersionDto } from './dto/create-version.dto';
 import { UpdateVersionDto } from './dto/update-version.dto';
 import { Version } from './entities/version.entity';
 
 @Injectable()
 export class VersionService {
+    private readonly logger = new Logger(VersionService.name);
+
     constructor(
         @InjectRepository(Version)
         private readonly versionRepo: Repository<Version>,
@@ -15,39 +18,23 @@ export class VersionService {
         @InjectRepository(Application)
         private readonly applicationRepo: Repository<Application>,
 
+        @InjectRepository(Environment)
+        private readonly environmentRepo: Repository<Environment>,
+
         private dataSource: DataSource
     ) {}
-    async create(createVersionDto: CreateVersionDto) {
-        const ver = new Version();
-        ver.version = createVersionDto.version;
+    async create1(createVersionDto: CreateVersionDto) {
+        const [application, enviroment] = await Promise.all([
+            this.applicationRepo.findOneBy({ id: createVersionDto.applicationId }),
+            this.environmentRepo.findOneBy({ id: createVersionDto.environmentId })
+        ]);
 
-        const app = await this.applicationRepo.findOne({
-            relations: {
-                versions: true,
-            },
-            where: {
-                id: createVersionDto.applicationId,
-            }
-         });
+        const versionInstance = new Version();
+        versionInstance.version = createVersionDto.version;
+        versionInstance.application = application;
+        versionInstance.environment = enviroment;
 
-        const queryRunner = this.dataSource.createQueryRunner();
-
-        await queryRunner.connect();
-        await queryRunner.startTransaction();
-
-        try {
-            await queryRunner.manager.save(ver);
-            app.versions.push(ver);
-            await queryRunner.manager.save(app);
-
-            await queryRunner.commitTransaction();
-        } catch (err) {
-            await queryRunner.rollbackTransaction();
-        } finally {
-            await queryRunner.release();
-        };
-
-        return ver;
+        return this.versionRepo.save(versionInstance);
     }
 
     findAll() {
