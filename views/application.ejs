@@ -2,14 +2,14 @@
 <html>
 <head>
 <title>IO Versions</title>
-<%- include('partial/bootstrapIncludes') %>
+<%- include('partial/include-resources') %>
 </head>
 
 <body>
 <%- include('partial/header'); %>
 
-<div class="container-fluid">
-    <h3>Application: <%= name %></h3>
+<div class="container-xl  my-md-4">
+    <h3>Application: <%= application.name %></h3>
     <ul>
     <% for (version of application.versions) { %>
         <li><%= version.version %></li>

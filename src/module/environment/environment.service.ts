@@ -21,7 +21,11 @@ export class EnvironmentService {
     }
 
     async findAll() {
-        return this.environment.find();
+        return this.environment.find({
+            relations: {
+                versions: true,
+            }
+        });
     }
 
     findOne(id: number) {

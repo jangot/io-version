@@ -2,69 +2,53 @@
 <html>
 <head>
 <title>IO Versions</title>
-<%- include('partial/bootstrapIncludes') %>
-<script>
-$(() => {
-    $('#createApp button').click(() => {
-        $('#createApp error').hide();
-        const name = $('#createApp input').val();
-
-        const response = fetch('/api/application', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: { 'Content-Type': 'application/json' },
-            redirect: 'follow',
-            referrerPolicy: 'no-referrer',
-            body: JSON.stringify({
-                name,
-                isActive: true
-            })
-        })
-        .then(() => {
-            location.reload();
-        })
-        .catch(() => {
-            $('#createApp error').show();
-        })
-
-        return false;
-    });
-});
-</script>
+<%- include('partial/include-resources') %>
+<script src="/public/applications.js"></script>
 </head>
 
 <body>
 <%- include('partial/header'); %>
 
-<div class="container-xl">
+<div class="container-xl my-md-4">
     <div class="row">
-        <div class="col">
-        <% for (app of applications) { %>
-            <h3>
-                <a href="/applications/<%= app.name %>"><%= app.name %></a>
-            </h3>
+        <div class="col-2">
             <ul>
-                <% for (version of app.versions) { %>
-                    <li><%= version.version %></li>
+                <% for (app of applications) { %>
+                    <li>
+                        <a href="/applications/<%= app.id %>"><%= app.name %></a>
+                        <ul>
+                            <% for (version of app.versions) { %>
+                                <li><%= version.version %></li>
+                            <% } %>
+                        </ul>
+                    </li>
                 <% } %>
             </ul>
-        <% } %>
-        </div>
-        <div class="col">
-        <div id="createApp">
-            <div class="mb-3">
-                <label for="appName" class="form-label">Name</label>
-                <input name="name" type="text" class="form-control" id="appName" aria-describedby="appName">
+            <div class="input-group" id="createApp">
+                <input type="text" placeholder="Application" name="name" aria-label="First name" class="form-control">
+                <button class="btn btn-outline-primary" type="submit">+</button>
             </div>
-            <button type="submit" class="btn btn-primary">Create</button>
-            <div style="display: none;" class="text-danger error">Error</div>
         </div>
+        <div class="col-6">
+                coll 2
         </div>
-        <div class="col">
-
+        <div class="col-2">
+            <ul>
+                <% for (env of environments) { %>
+                    <li>
+                        <a href="/environments/<%= env.id %>"><%= env.name %></a>
+                        <ul>
+                            <% for (version of env.versions) { %>
+                                <li><%= version.version %></li>
+                            <% } %>
+                        </ul>
+                    </li>
+                <% } %>
+            </ul>
         </div>
+        <div class="col-2">
+            coll 2
+    </div>
     </div>
 </div>
 

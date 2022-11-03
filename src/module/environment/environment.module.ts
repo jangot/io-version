@@ -8,6 +8,7 @@ import { Version } from '../version/entities/version.entity';
 @Module({
     imports: [TypeOrmModule.forFeature([Environment, Version])],
     controllers: [EnvironmentController],
-    providers: [EnvironmentService]
+    providers: [EnvironmentService],
+    exports: [EnvironmentService],
 })
 export class EnvironmentModule {}

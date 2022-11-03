@@ -35,13 +35,6 @@ export class ApplicationService {
         });
     }
 
-    findOneByName(name: string): Promise<Application> {
-        return this.applicationRepository.findOne({
-            where: { name },
-            relations: ['versions']
-        });
-    }
-
     async remove(id: string): Promise<void> {
         await this.applicationRepository.delete(id);
     }
