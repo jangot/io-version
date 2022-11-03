@@ -36,6 +36,7 @@ export class EnvironmentService {
     }
 
     remove(id: number) {
+
         return `This action removes a #${id} environment`;
     }
 
