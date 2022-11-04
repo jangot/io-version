@@ -13,10 +13,11 @@
 <div class="container-xl my-md-4">
     <div class="row">
         <div class="col-3">
-            <div class="list-group">
+            <div class="list-group" id="applications-list">
                 <% for (app of applications) { %>
                     <button
                         type="button"
+                        data-app="<%= JSON.stringify(app) %>"
                         class="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
                     >
                         <div><%= app.name %></div>
@@ -30,18 +31,44 @@
                 <button class="btn btn-primary" disabled type="submit">+</button>
             </div>
         </div>
-        <div class="col-4">
-                coll 2
+        <div class="col-4" id="deploy">
+                <div class="input-group mb-4">
+                    <input type="text" id="deployAppName" disabled class="form-control" placeholder="Applicaiton" aria-label="Applicaiton">
+                    <input type="text" id="deployVersion" class="form-control" placeholder="Version" aria-label="Version">
+                    <span class="input-group-text">to</span>
+                    <input type="text" id="deployEnvName" disabled class="form-control" placeholder="Envoiroment" aria-label="Envoiroment">
+                </div>
+                <input type="hidden" id="deployAppId">
+                <input type="hidden" id="deployEnvId">
+                <div class="col-auto">
+                    <button type="submit" disabled class="btn btn-primary mb-3">Deploy</button>
+                </div>
+                <table class="table table-sm table-bordered border-secondary">
+                    <tr>
+                        <th>App</th>
+                        <th>Version</th>
+                        <th>Env</th>
+                    </tr>
+                    <% for (version of versions) { %>
+                        <tr>
+                            <td><%= version.application.name %></td>
+                            <td><%= version.version %></td>
+                            <td><%= version.environment.name %></td>
+                        </tr>
+                    <% } %>
+                </table>
         </div>
         <div class="col-3">
-            <div class="list-group">
+            <div class="list-group" id="environments-list">
                 <% for (env of environments) { %>
-                <div class="list-group-item">
-                    <a href="/environments/<%= env.id %>"><%= env.name %></a>
-                    <% for (version of env.versions) { %>
-                        <div><%= version.version %></div>
-                    <% } %>
-                </div>
+                <button
+                    type="button"
+                    data-env="<%= JSON.stringify(env) %>"
+                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
+                >
+                    <div><%= env.name %></div>
+                    <span class="badge bg-primary rounded-pill"><%= env.versions.length %></span>
+                </button>
                 <% } %>
             </div>
             <br>
@@ -51,7 +78,7 @@
             </button>
         </div>
         <div class="col-2">
-            coll 2
+            Rulles
     </div>
     </div>
 </div>

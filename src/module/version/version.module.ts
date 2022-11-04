@@ -11,6 +11,7 @@ import { Environment } from '../environment/entities/environment.entity';
     TypeOrmModule.forFeature([Version, Application, Environment]),
   ],
   controllers: [VersionController],
-  providers: [VersionService]
+  providers: [VersionService],
+  exports: [VersionService],
 })
 export class VersionModule {}

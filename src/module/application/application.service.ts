@@ -25,6 +25,9 @@ export class ApplicationService {
             relations: {
                 versions: true,
             },
+            order: {
+                name: 'ASC'
+            }
         });
     }
 

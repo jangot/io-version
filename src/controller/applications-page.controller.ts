@@ -1,14 +1,15 @@
 import { Body, Controller, Get, Param, Post, Render } from '@nestjs/common';
 import { ViewContext } from 'src/decorator/view-context';
 import { ApplicationService } from 'src/module/application/application.service';
-import { CreateApplicationDto } from 'src/module/application/dto/create-application.dto';
 import { EnvironmentService } from 'src/module/environment/environment.service';
+import { VersionService } from 'src/module/version/version.service';
 
 @Controller('applications')
 export class ApplicationsPageController {
     constructor(
         private readonly appService: ApplicationService,
         private readonly environmentService: EnvironmentService,
+        private readonly versionService: VersionService,
     ){}
 
     @Get('/')
@@ -17,15 +18,18 @@ export class ApplicationsPageController {
         const [
             applications,
             environments,
+            versions,
         ] = await Promise.all([
             this.appService.findAll(),
-            this.environmentService.findAll()
+            this.environmentService.findAll(),
+            this.versionService.findAll()
         ]);
 
         return {
             ctx,
             applications,
-            environments
+            environments,
+            versions
         };
     }
 

@@ -1,19 +1,20 @@
 import { Application } from 'src/module/application/application.entity';
 import { Environment } from 'src/module/environment/entities/environment.entity';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, Index } from 'typeorm';
 
 @Entity()
+@Index(['version', 'application', 'environment'], { unique: true })
 export class Version {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable: false })
     version: string;
 
-    @ManyToOne(() => Application, (application) => application.versions)
+    @ManyToOne(() => Application, (application) => application.versions, { nullable: false })
     application: Application;
 
-    @ManyToOne(() => Environment, (environment) => environment.versions)
+    @ManyToOne(() => Environment, (environment) => environment.versions, { nullable: false })
     environment: Environment;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP' })

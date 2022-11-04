@@ -24,6 +24,9 @@ export class EnvironmentService {
         return this.environment.find({
             relations: {
                 versions: true,
+            },
+            order: {
+                name: 'ASC'
             }
         });
     }

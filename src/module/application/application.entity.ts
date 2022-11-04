@@ -6,7 +6,7 @@ export class Application {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable: false })
     @Index({ unique: true })
     name: string;
 

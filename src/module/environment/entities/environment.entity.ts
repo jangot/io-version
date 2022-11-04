@@ -6,13 +6,13 @@ export class Environment {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable: false })
     name: string;
 
-    @Column()
+    @Column({ nullable: false })
     description: string;
 
-    @Column()
+    @Column({ nullable: false, default: 1 })
     orderIndex: number;
 
     @OneToMany(() => Version, (version) => version.application)

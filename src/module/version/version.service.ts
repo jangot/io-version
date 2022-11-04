@@ -38,7 +38,17 @@ export class VersionService {
     }
 
     findAll() {
-        return `This action returns all version`;
+        return this.versionRepo.find({
+            relations: {
+                application: true,
+                environment: true
+            },
+            order: {
+                application: {
+                     name: "ASC"
+               },
+            }
+        });
     }
 
     findOne(id: number) {
