@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="h-100">
+<head>
+<title>IO Versions - rules</title>
+<%- include('partial/include-resources') %>
+<script src="/public/environments.js"></script>
+</head>
+<body>
+<%- include('partial/header'); %>
+<div class="container-fluid my-md-4">
+    <% for (env of environments) { %>
+    <div class="card" data-env="<%= JSON.stringify(env) %>">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-2">
+                    <h5 class="card-title"><%= env.name %></h5>
+                    <p class="card-text">
+                        <%= env.description %>
+                    </p>
+                </div>
+                <div class="col-3">
+                    <% for (rule of env.rules) { %>
+                    <div
+                        class="input-group mb-4"
+                        data-rule="<%= JSON.stringify(rule) %>"
+                        data-env="<%= JSON.stringify(env) %>"
+                    >
+                        <select class="form-control" disabled>
+                            <% for (key of keys) { %>
+                                <option
+                                    value="<%= key.id %>"
+                                    <%= (key.id === rule.keyId) ? 'selected' : '' %>
+                                ><%= key.name %></option>
+                            <% } %>
+                        </select>
+                        <span class="input-group-text">=</span>
+                        <input name="value" value="<%= rule.value %>" type="text" class="form-control">
+                        <input type="button" class="form-control btn btn-info" value="Save">
+                    </div>
+                    <% } %>
+                    <div class="input-group mb-4" data-rule="null" data-env="<%= JSON.stringify(env) %>">
+                        <select class="form-control">
+                            <option> - Select key - </option>
+                            <% for (key of keys) { %>
+                                <option value="<%= key.id %>"><%= key.name %></option>
+                            <% } %>
+                        </select>
+                        <span class="input-group-text">=</span>
+                        <input name="value" type="text" class="form-control">
+                        <input type="button" class="form-control btn btn-primary" value="Add">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <% } %>
+</div>
+<%- include('partial/footer') %>
+</body>
+</html>

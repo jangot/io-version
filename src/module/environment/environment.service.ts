@@ -24,9 +24,13 @@ export class EnvironmentService {
         return this.environment.find({
             relations: {
                 versions: true,
+                rules: true
             },
             order: {
-                name: 'ASC'
+                name: 'ASC',
+                rules: {
+                    keyId: 'ASC'
+                }
             }
         });
     }
