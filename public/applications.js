@@ -155,3 +155,10 @@ $(() => {
         return false;
     });
 });
+
+$(() => {
+    $('#environments-list button').click(function() {
+        const env = $(this).data('env');
+        $('#rules').html(`<pre>${JSON.stringify(env, null, 4)}</pre>`);
+    });
+});

@@ -15,6 +15,6 @@ export class Environment {
     @Column({ nullable: false, default: 1 })
     orderIndex: number;
 
-    @OneToMany(() => Version, (version) => version.application)
-    versions: Version[]
+    @OneToMany(() => Version, (version) => version.environment)
+    versions: Version[];
 }
