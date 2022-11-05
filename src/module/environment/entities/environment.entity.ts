@@ -1,3 +1,4 @@
+import { Rule } from 'src/module/rule/entities/rule.entity';
 import { Version } from 'src/module/version/entities/version.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -17,4 +18,7 @@ export class Environment {
 
     @OneToMany(() => Version, (version) => version.environment)
     versions: Version[];
+
+    @OneToMany(() => Rule, (rule) => rule.environment)
+    rules: Rule[];
 }
