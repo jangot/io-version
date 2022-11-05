@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html class="h-100">
 <head>
 <title>IO Versions</title>
 <%- include('partial/include-resources') %>
 <script src="/public/applications.js"></script>
 </head>
 
-<body>
+<body class="h-100">
 
 <%- include('partial/header'); %>
 
 <div class="container-fluid my-md-4">
     <div class="row">
-        <div class="col-3">
+        <div class="col-2">
             <div class="list-group" id="applications-list">
                 <% for (app of applications) { %>
                     <button
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="col-4" id="deploy">
-                <div class="input-group mb-4">
+                <div class="input-group mb-3">
                     <input type="text" id="deployAppName" disabled class="form-control" placeholder="Applicaiton" aria-label="Applicaiton">
                     <input type="text" id="deployVersion" class="form-control" placeholder="Version" aria-label="Version">
                     <span class="input-group-text">to</span>
@@ -67,7 +67,7 @@
                     <% } %>
                 </table>
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <div class="list-group" id="environments-list">
                 <% for (env of environments) { %>
                 <button
@@ -89,7 +89,7 @@
                 Add
             </button>
         </div>
-        <div class="col-2">
+        <div class="col-4">
             Rulles
             <div id="rules"></div>
     </div>

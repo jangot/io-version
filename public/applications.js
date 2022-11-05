@@ -1,14 +1,3 @@
-function getFetchOptions() {
-    return {
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: { 'Content-Type': 'application/json' },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-    }
-}
-
 function fetchPost(url, data) {
     return fetch(url, {
         method: 'POST',
@@ -19,7 +8,14 @@ function fetchPost(url, data) {
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
         body: JSON.stringify(data),
-    });
+    })
+    // .then((response) => {
+    //     // 1. check response.ok
+    //     if (response.ok) {
+    //       return response.json();
+    //     }
+    //     return Promise.reject(response); // 2. reject instead of throw
+    // });
 }
 
 $(() => {

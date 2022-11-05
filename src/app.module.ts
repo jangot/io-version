@@ -5,6 +5,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ApplicationsPageController } from './controller/applications-page.controller';
 import { ApplicationModule } from './module/application/application.module';
 import { EnvironmentModule } from './module/environment/environment.module';
+import { RuleModule } from './module/rule/rule.module';
 import { VersionModule } from './module/version/version.module';
 import { create as createDataSource } from './utils/factories/dataSource';
 
@@ -31,6 +32,7 @@ import { create as createDataSource } from './utils/factories/dataSource';
         ApplicationModule,
         EnvironmentModule,
         VersionModule,
+        RuleModule,
     ],
     controllers: [ApplicationsPageController],
     providers: [],

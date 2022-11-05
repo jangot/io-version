@@ -7,11 +7,11 @@ import { Application } from '../application/application.entity';
 import { Environment } from '../environment/entities/environment.entity';
 
 @Module({
-  imports:[
-    TypeOrmModule.forFeature([Version, Application, Environment]),
-  ],
-  controllers: [VersionController],
-  providers: [VersionService],
-  exports: [VersionService],
+    imports:[
+        TypeOrmModule.forFeature([Version, Application, Environment]),
+    ],
+    controllers: [VersionController],
+    providers: [VersionService],
+    exports: [VersionService],
 })
 export class VersionModule {}
