@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Rule } from '../rule/entities/rule.entity';
+import { Version } from '../version/entities/version.entity';
 import { CreateEnvironmentDto } from './dto/create-environment.dto';
 import { UpdateEnvironmentDto } from './dto/update-environment.dto';
 import { Environment } from './entities/environment.entity';
@@ -9,7 +11,13 @@ import { Environment } from './entities/environment.entity';
 export class EnvironmentService {
     constructor(
         @InjectRepository(Environment)
-        private environment: Repository<Environment>
+        private environment: Repository<Environment>,
+
+        @InjectRepository(Rule)
+        private rule: Repository<Rule>,
+
+        @InjectRepository(Version)
+        private version: Repository<Version>
     ) {}
     async create(envDto: CreateEnvironmentDto): Promise<Environment> {
         const env = new Environment();
@@ -47,8 +55,22 @@ export class EnvironmentService {
         return this.environment.save(env);
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} environment`;
+    async remove(id: number) {
+        const env = await this.environment.findOne({
+            where: { id },
+            relations: {
+                rules: true,
+                versions: true
+            }
+        });
+
+        await Promise.all([
+            this.rule.remove(env.rules),
+            this.version.remove(env.versions),
+        ]);
+
+
+        return this.environment.remove(env);
     }
 
 }

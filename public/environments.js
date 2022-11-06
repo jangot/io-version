@@ -41,7 +41,8 @@ class EditEnv {
         this.$name = $el.find('input[name="name"]');
         this.$description = $el.find('input[name="description"]');
         this.$orderIndex = $el.find('input[name="orderIndex"]');
-        this.$send = $el.find('button');
+        this.$btnUpdate = $el.find('.j-update');
+        this.$btnRemove = $el.find('.j-remove');
         this.env = $el.data('env');
 
         console.log(this);
@@ -52,13 +53,21 @@ class EditEnv {
         this.$name.add(this.$description).keyup(() => {
             const data = this.getData();
             const disabled = !data.name || !data.description;
-            this.$send.prop('disabled', disabled);
+            this.$btnUpdate.prop('disabled', disabled);
         });
-        this.$send.click(() => {
+        this.$btnUpdate.click(() => {
             api({
                 method: 'PATCH',
                 url: `/environment/${this.env.id}`,
                 data: this.getData(),
+            })
+                .then(() => location.reload())
+                .catch((err) => console.error(err));
+        });
+        this.$btnRemove.click(() => {
+            api({
+                method: 'DELETE',
+                url: `/environment/${this.env.id}`,
             })
                 .then(() => location.reload())
                 .catch((err) => console.error(err));
