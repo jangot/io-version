@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { async } from 'rxjs';
 import { Repository } from 'typeorm';
 
 import { Application } from './application.entity';
 import { CreateApplicationDto } from './dto/create-application.dto';
+import { UpdateApplicationDto } from './dto/update-application.dto';
 
 @Injectable()
 export class ApplicationService {
@@ -13,11 +15,20 @@ export class ApplicationService {
     ) {}
 
     create(createApplicationDto: CreateApplicationDto): Promise<Application> {
-        const newApp = new Application();
-        newApp.name = createApplicationDto.name;
-        newApp.isActive = createApplicationDto.isActive;
+        const app = new Application();
+        app.name = createApplicationDto.name;
+        app.isActive = createApplicationDto.isActive;
 
-        return this.applicationRepository.save(newApp);
+        return this.applicationRepository.save(app);
+    }
+
+    async update(id: number, updateApplicationDto: UpdateApplicationDto) {
+        const app = await this.applicationRepository.findOneBy({ id });
+
+        app.name = updateApplicationDto.name;
+        app.isActive = updateApplicationDto.isActive;
+
+        return this.applicationRepository.save(app);
     }
 
     findAll(): Promise<Application[]> {
@@ -38,7 +49,7 @@ export class ApplicationService {
         });
     }
 
-    async remove(id: string): Promise<void> {
-        await this.applicationRepository.delete(id);
+    async remove(id: number): Promise<void> {
+        this.applicationRepository.delete(id);
     }
 }

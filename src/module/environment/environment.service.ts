@@ -12,12 +12,12 @@ export class EnvironmentService {
         private environment: Repository<Environment>
     ) {}
     async create(envDto: CreateEnvironmentDto): Promise<Environment> {
-        const newEnv = new Environment();
-        newEnv.name = envDto.name;
-        newEnv.description = envDto.description;
-        newEnv.orderIndex = envDto.orderIndex;
+        const env = new Environment();
+        env.name = envDto.name;
+        env.description = envDto.description;
+        env.orderIndex = envDto.orderIndex;
 
-        return this.environment.save(newEnv);
+        return this.environment.save(env);
     }
 
     async findAll() {
@@ -38,12 +38,16 @@ export class EnvironmentService {
     findOne(id: number) {
         return `This action returns a #${id} environment`;
     }
-    update(id: number, updateEnvironmentDto: UpdateEnvironmentDto) {
-        return `This action updates a #${id} environment`;
+    async update(id: number, envDto: UpdateEnvironmentDto) {
+        const env = await this.environment.findOneBy({ id });
+        env.name = envDto.name;
+        env.description = envDto.description;
+        env.orderIndex = envDto.orderIndex;
+
+        return this.environment.save(env);
     }
 
     remove(id: number) {
-
         return `This action removes a #${id} environment`;
     }
 

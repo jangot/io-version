@@ -12,16 +12,24 @@
     <div class="card" data-env="<%= JSON.stringify(env) %>">
         <div class="card-body">
             <div class="row">
-                <div class="col-2">
-                    <h5 class="card-title"><%= env.name %></h5>
-                    <p class="card-text">
-                        <%= env.description %>
-                    </p>
+                <div class="col-2 j-env-form" data-env="<%= JSON.stringify(env) %>">
+                    <div class="mb-4">
+                        <input type="text" class="form-control" name="name" value="<%= env.name %>">
+                    </div>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" name="description" value="<%= env.description %>">
+                    </div>
+                    <div class="mb-4">
+                        <input type="number" class="form-control" name="orderIndex" value="<%= env.orderIndex %>">
+                    </div>
+                    <div class="mb-4">
+                        <button class="btn btn-primary">Update</button>
+                    </div>
                 </div>
                 <div class="col-3">
                     <% for (rule of env.rules) { %>
                     <div
-                        class="input-group mb-4"
+                        class="input-group mb-4 j-rule-form"
                         data-rule="<%= JSON.stringify(rule) %>"
                         data-env="<%= JSON.stringify(env) %>"
                     >

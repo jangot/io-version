@@ -35,6 +35,46 @@ class EditRule {
     }
 }
 
+class EditEnv {
+    constructor($el) {
+        this.$el = $el;
+        this.$name = $el.find('input[name="name"]');
+        this.$description = $el.find('input[name="description"]');
+        this.$orderIndex = $el.find('input[name="orderIndex"]');
+        this.$send = $el.find('button');
+        this.env = $el.data('env');
+
+        console.log(this);
+        this.subscribe();
+    }
+
+    subscribe() {
+        this.$name.add(this.$description).keyup(() => {
+            const data = this.getData();
+            const disabled = !data.name || !data.description;
+            this.$send.prop('disabled', disabled);
+        });
+        this.$send.click(() => {
+            api({
+                method: 'PATCH',
+                url: `/environment/${this.env.id}`,
+                data: this.getData(),
+            })
+                .then(() => location.reload())
+                .catch((err) => console.error(err));
+        });
+    }
+
+    getData() {
+        return {
+            name: this.$name.val(),
+            description: this.$description.val(),
+            orderIndex: +this.$orderIndex.val(),
+        }
+    }
+}
+
 $(() => {
-    $('div[data-rule]').each((i, el) => new EditRule($(el)));
+    $('.j-rule-form').each((i, el) => new EditRule($(el)));
+    $('.j-env-form').each((i, el) => new EditEnv($(el)));
 });
