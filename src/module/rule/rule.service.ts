@@ -69,7 +69,9 @@ export class RuleService {
         return this.rule.save(rule);
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} rule`;
+    async remove(id: number) {
+        const rule = await this.rule.findOneBy({ id });
+
+        return this.rule.remove(rule);
     }
 }

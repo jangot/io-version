@@ -1,0 +1,63 @@
+<div class="card" data-env="<%= JSON.stringify(env) %>">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-4 j-env-form" data-env="<%= JSON.stringify(env) %>">
+                <div class="mb-4">
+                    <input type="text" class="form-control" name="name" value="<%= env.name %>">
+                </div>
+                <div class="mb-4">
+                    <input type="text" class="form-control" name="description" value="<%= env.description %>">
+                </div>
+                <div class="mb-4">
+                    <input type="number" class="form-control" name="orderIndex" value="<%= env.orderIndex %>">
+                </div>
+                <div class="mb-4">
+                    <button class="btn btn-primary j-update">Update</button>
+                    <button class="btn btn-danger j-remove">Remove</button>
+                </div>
+            </div>
+            <div class="col-4">
+                <% for (rule of env.rules) { %>
+                <div
+                    class="input-group mb-4 j-rule-form"
+                    data-rule="<%= JSON.stringify(rule) %>"
+                    data-env="<%= JSON.stringify(env) %>"
+                >
+                    <select class="form-control" disabled>
+                        <% for (key of keys) { %>
+                            <option
+                                value="<%= key.id %>"
+                                <%= (key.id === rule.keyId) ? 'selected' : '' %>
+                            ><%= key.name %></option>
+                        <% } %>
+                    </select>
+                    <span class="input-group-text">=</span>
+                    <input name="value" value="<%= rule.value %>" type="text" class="form-control">
+                    <button class="btn btn-primary" value="save">
+                        <i class="bi bi-save"></i>
+                    </button>
+                    <button class="btn btn-danger" value="remove">
+                        <i class="bi bi-trash3-fill"></i>
+                    </button>
+                </div>
+                <% } %>
+                <div class="input-group mb-4 j-rule-form" data-rule="null" data-env="<%= JSON.stringify(null) %>">
+                    <select class="form-control">
+                        <option> - Select key - </option>
+                        <% for (key of keys) { %>
+                            <option value="<%= key.id %>"><%= key.name %></option>
+                        <% } %>
+                    </select>
+                    <span class="input-group-text">=</span>
+                    <input name="value" type="text" class="form-control">
+                    <button type="button" disabled class="btn btn-primary" value="save">
+                        <i class="bi bi-plus-circle"></i>
+                    </button>
+                    <button type="button" disabled class="btn btn-danger" value="remove">
+                        <i class="bi bi-trash3-fill"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

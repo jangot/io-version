@@ -12,4 +12,7 @@ export class RuleKey {
 
     @OneToMany(() => Rule, (rule) => rule.key)
     rules: Rule[];
+
+    @Column({ nullable: false, default: 1 })
+    specificity: number;
 }

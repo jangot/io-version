@@ -15,23 +15,42 @@ export class RuleKeyService {
     create(createRuleKeyDto: CreateRuleKeyDto) {
         const key = new RuleKey();
         key.name = createRuleKeyDto.name;
+        if (createRuleKeyDto.specificity) {
+            key.specificity = createRuleKeyDto.specificity;
+        }
 
         return this.ruleKey.save(key);
     }
 
     findAll() {
-        return this.ruleKey.find();
+        return this.ruleKey.find({
+            order: {
+                specificity: 'ASC'
+            }
+        });
     }
 
     findOne(id: number) {
         return `This action returns a #${id} rule`;
     }
 
-    update(id: number, updateRuleKeyDto: UpdateRuleKeyDto) {
-        return `This action updates a #${id} rule`;
+    async update(id: number, updateRuleKeyDto: UpdateRuleKeyDto) {
+        const key = await this.ruleKey.findOneBy({ id });
+
+        key.name = updateRuleKeyDto.name;
+        if (updateRuleKeyDto.specificity) {
+            key.specificity = updateRuleKeyDto.specificity;
+        }
+
+        return this.ruleKey.save(key);
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} rule`;
+    async remove(id: number) {
+        // TODO remove keys in envs
+        throw new Error('Clean DB doesn`t implemented');
+
+        const key = await this.ruleKey.findOneBy({ id });
+
+        return this.ruleKey.remove(key);
     }
 }

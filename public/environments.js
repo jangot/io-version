@@ -5,14 +5,21 @@ class EditRule {
         this.$root = $el;
         this.$ruleSelect = $el.find('select');
         this.$val = $el.find('input[name="value"]');
-        this.$send = $el.find('input[type="button"]');
+        this.$send = $el.find('button[value="save"]');
+        this.$remove = $el.find('button[value="remove"]');
         this.rule = $el.data('rule');
         this.env = $el.data('env');
-
         this.subscribe();
     }
 
     subscribe() {
+        this.$val.add(this.$ruleSelect).on('keyup change', () => {
+            const data = this.getData();
+            const disabled = !data.ruleKeyId || !data.value;
+
+            this.$send.prop('disabled', disabled);
+        });
+
         this.$send.click(() => {
             const data = this.getData();
 
@@ -21,6 +28,13 @@ class EditRule {
                 data,
                 url: this.rule ? `/rule/${this.rule.id}` : '/rule'
             })
+                .then(() => location.reload())
+                .catch((err) => console.error(err));
+        });
+
+        this.$remove.click(() => {
+            api
+                .delete(`/rule/${this.rule.id}`)
                 .then(() => location.reload())
                 .catch((err) => console.error(err));
         });
@@ -45,7 +59,6 @@ class EditEnv {
         this.$btnRemove = $el.find('.j-remove');
         this.env = $el.data('env');
 
-        console.log(this);
         this.subscribe();
     }
 
@@ -83,7 +96,57 @@ class EditEnv {
     }
 }
 
+class KeyEdit {
+    constructor($root) {
+        this.$root = $root;
+        this.$name = $root.find('[name="name"]');
+        this.$specificity = $root.find('[name="specificity"]');
+        this.$save = $root.find('[value="save"]');
+        this.$remove = $root.find('[value="remove"]');
+        this.key = $root.data('key');
+
+        console.log(this);
+        this.subscribe();
+    }
+
+    subscribe() {
+        this.$name.add(this.$specificity).on('keyup change', () => {
+            const data = this.getData();
+            const disabled = !data.name || !data.specificity || data.specificity < 1;
+
+            this.$save.prop('disabled', disabled);
+        });
+
+        this.$save.click(() => {
+            const data = this.getData();
+
+            api({
+                method: this.key ? 'PATCH' : 'POST',
+                data,
+                url: this.key ? `/rule/key/${this.key.id}` : '/rule/key'
+            })
+                .then(() => location.reload())
+                .catch((err) => console.error(err));
+        });
+
+        this.$remove.click(() => {
+            api
+                .delete(`/rule/key/${this.key.id}`)
+                .then(() => location.reload())
+                .catch((err) => console.error(err));
+        });
+    }
+
+    getData() {
+        return {
+            name: this.$name.val(),
+            specificity: Number(this.$specificity.val()),
+        }
+    }
+}
+
 $(() => {
     $('.j-rule-form').each((i, el) => new EditRule($(el)));
     $('.j-env-form').each((i, el) => new EditEnv($(el)));
+    $('.j-keys').each((i, el) => new KeyEdit($(el)));
 });
