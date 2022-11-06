@@ -1,4 +1,3 @@
-import * as fs from 'fs/promises';
 import { join } from 'path';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -7,23 +6,11 @@ import {
     NestFastifyApplication,
   } from '@nestjs/platform-fastify';
 import * as ejs from 'ejs';
-import { AppModule } from './app.module';
-
-async function readPartials(templatesFolder: string, partialFolder: string) {
-    const files = await fs.readdir(`${templatesFolder}/${partialFolder}`);
-
-    return files
-        .filter((name) => /\.hbs$/.test(name))
-        .map((name) => name.replace(/.hbs$/, ''))
-        .reduce((memo, name) => {
-            memo[name] = `${partialFolder}/${name}.hbs`;
-            return memo;
-        }, {})
-}
+import { RootModule } from './root.module';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(
-        AppModule,
+        RootModule,
         new FastifyAdapter()
     );
     app.useGlobalPipes(new ValidationPipe());
