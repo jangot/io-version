@@ -13,7 +13,7 @@ export class ApplicationsPageController {
     ){}
 
     @Get('/')
-    @Render('applications.ejs')
+    @Render('apps.ejs')
     async applicationsPage(@ViewContext() ctx) {
         const [
             applications,

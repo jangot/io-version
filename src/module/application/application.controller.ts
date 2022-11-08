@@ -21,7 +21,7 @@ export class ApplicationController {
     }
 
     @Patch(':id')
-    editApp(@Param('id') id: string, updateApplicationDto: UpdateApplicationDto) {
+    editApp(@Param('id') id: string, @Body() updateApplicationDto: UpdateApplicationDto) {
         return this.appService.update(+id, updateApplicationDto);
     }
 
