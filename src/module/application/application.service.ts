@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { async } from 'rxjs';
 import { Repository } from 'typeorm';
+import { Version } from '../version/entities/version.entity';
 
 import { Application } from './application.entity';
 import { CreateApplicationDto } from './dto/create-application.dto';
@@ -12,6 +13,9 @@ export class ApplicationService {
     constructor(
         @InjectRepository(Application)
         private applicationRepository: Repository<Application>,
+
+        @InjectRepository(Version)
+        private versionRepository: Repository<Version>,
     ) {}
 
     create(createApplicationDto: CreateApplicationDto): Promise<Application> {
@@ -50,6 +54,14 @@ export class ApplicationService {
     }
 
     async remove(id: number): Promise<void> {
-        this.applicationRepository.delete(id);
+        const app = await this.applicationRepository.findOne({
+            where: { id },
+            relations: {
+                versions: true
+            }
+        });
+
+        await this.versionRepository.remove(app.versions);
+        await this.applicationRepository.remove(app);
     }
 }

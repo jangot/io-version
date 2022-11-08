@@ -11,7 +11,6 @@ export class App {
 
             return response;
           }, error => Promise.reject(error));
-          console.log(axios);
     }
 
     controller(selector, Controller) {

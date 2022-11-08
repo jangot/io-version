@@ -17,6 +17,13 @@ class UpdateApp extends AbstractController {
                 reloadAfter: true
             })
         });
+        this.remove.on('click', () => {
+            this.app.api({
+                method: 'DELETE',
+                url: `/application/${this.entity.id}`,
+                reloadAfter: true
+            })
+        });
         this.name.on('change keyup', () => {
             const data = this.getData();
             this.save.prop('disabled', !data.name);
