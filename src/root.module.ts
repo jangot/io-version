@@ -1,4 +1,3 @@
-// import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
@@ -9,6 +8,7 @@ import { EnvironmentModule } from './module/environment/environment.module';
 import { RuleModule } from './module/rule/rule.module';
 import { VersionModule } from './module/version/version.module';
 import { create as createDataSource } from './utils/factories/dataSource';
+import { async } from "rxjs";
 
 @Module({
     imports: [
@@ -23,7 +23,7 @@ import { create as createDataSource } from './utils/factories/dataSource';
                     password: '123',
                     database: 'io_versions',
                     entities: [],
-                    synchronize: true,
+                    synchronize: false,
                     autoLoadEntities: true,
                     namingStrategy: new SnakeNamingStrategy()
                 }
