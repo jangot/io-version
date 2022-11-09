@@ -1,5 +1,5 @@
-import { App } from '../base/index.js';
-import { AbstractController } from '../base/abstract-controller.js';
+import { App } from '../../base/index.js';
+import { AbstractController } from '../../base/abstract-controller.js';
 
 class UpdateApp extends AbstractController {
     findElements() {
