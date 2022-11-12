@@ -1,8 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Application } from '../application/application.entity';
-import { Environment } from '../environment/entities/environment.entity';
 import { CreateVersionDto } from './dto/create-version.dto';
 import { UpdateVersionDto } from './dto/update-version.dto';
 import { Version } from './entities/version.entity';
@@ -17,22 +16,15 @@ export class VersionService {
 
         @InjectRepository(Application)
         private readonly applicationRepo: Repository<Application>,
-
-        @InjectRepository(Environment)
-        private readonly environmentRepo: Repository<Environment>,
-
-        private dataSource: DataSource
     ) {}
     async create1(createVersionDto: CreateVersionDto) {
-        const [application, enviroment] = await Promise.all([
+        const [application] = await Promise.all([
             this.applicationRepo.findOneBy({ id: createVersionDto.applicationId }),
-            this.environmentRepo.findOneBy({ id: createVersionDto.environmentId })
         ]);
 
         const versionInstance = new Version();
         versionInstance.version = createVersionDto.version;
         versionInstance.application = application;
-        versionInstance.environment = enviroment;
 
         return this.versionRepo.save(versionInstance);
     }
@@ -41,7 +33,6 @@ export class VersionService {
         return this.versionRepo.find({
             relations: {
                 application: true,
-                environment: true
             },
             order: {
                 application: {

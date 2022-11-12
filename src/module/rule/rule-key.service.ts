@@ -46,9 +46,6 @@ export class RuleKeyService {
     }
 
     async remove(id: number) {
-        // TODO remove keys in envs
-        throw new Error('Clean DB doesn`t implemented');
-
         const key = await this.ruleKey.findOneBy({ id });
 
         return this.ruleKey.remove(key);

@@ -15,9 +15,6 @@ export class EnvironmentService {
 
         @InjectRepository(Rule)
         private rule: Repository<Rule>,
-
-        @InjectRepository(Version)
-        private version: Repository<Version>
     ) {}
     async create(envDto: CreateEnvironmentDto): Promise<Environment> {
         const env = new Environment();
@@ -31,7 +28,6 @@ export class EnvironmentService {
     async findAll() {
         return this.environment.find({
             relations: {
-                versions: true,
                 rules: true
             },
             order: {
@@ -60,13 +56,11 @@ export class EnvironmentService {
             where: { id },
             relations: {
                 rules: true,
-                versions: true
             }
         });
 
         await Promise.all([
             this.rule.remove(env.rules),
-            this.version.remove(env.versions),
         ]);
 
 

@@ -22,7 +22,7 @@ import { create as createDataSource } from './utils/factories/dataSource';
                     password: '123',
                     database: 'io_versions',
                     entities: [],
-                    synchronize: false,
+                    synchronize: true,
                     autoLoadEntities: true,
                     namingStrategy: new SnakeNamingStrategy()
                 }
