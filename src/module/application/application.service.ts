@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { async } from 'rxjs';
 import { Repository } from 'typeorm';
 import { Version } from '../version/entities/version.entity';
 

@@ -6,6 +6,7 @@
 <%- include('partial/load-page-resources', { pageName: 'applications' } ) %>
 </head>
 <body class="applicaiont-page">
+<%- include('partial/error'); %>
 <%- include('partial/header'); %>
 <div class="container-fluid my-md-4">
     <div class="card mb-4" style="border: none;">
@@ -30,9 +31,9 @@
     <% for (app of applications) { %>
         <div class="card mb-4">
             <div class="card-body">
-                <div class="row save-app" data-entity="<%= JSON.stringify(app) %>">
-                    <div class="col-3">
-                        <div class="input-group">
+                <div class="row j-application" data-entity="<%= JSON.stringify(app) %>">
+                    <div class="col-3 j-save-app">
+                        <div class="input-group j-update-app">
                             <input type="text" name="name" class="form-control" value="<%= app.name %>">
                             <button type="button" class="btn btn-primary" value="save">
                                 <i class="bi bi-save"></i>
@@ -43,10 +44,21 @@
                         </div>
                         <input type="hidden" name="isActive" value="true">
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        body
+                    <div class="col-2">
+                        <div class="input-group mb-3">
+                            <select class="form-control" name="version">
+                                <option value="">Select version</option>
+                                <% for (version of app.versions) { %>
+                                    <option value="<%= version.id %>"><%= version.version %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <div class="input-group j-new-version">
+                            <input type="text" placeholder="New version" name="version" class="form-control">
+                            <button type="button" class="btn btn-primary" value="save" disabled>
+                                <i class="bi bi-save"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

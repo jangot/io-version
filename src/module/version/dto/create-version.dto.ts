@@ -14,10 +14,4 @@ export class CreateVersionDto {
         message: 'Application with the `id` was not found.'
     })
     applicationId: number;
-
-    @IsNumber()
-    @Validate(HasEntity, [Environment], {
-        message: 'Environment with the `id` was not found.'
-    })
-    environmentId: number
 }

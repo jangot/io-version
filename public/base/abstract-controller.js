@@ -9,10 +9,10 @@ export class AbstractController {
         return this.root.find(selector);
     }
 
-    getData() {
+    getData(selector) {
         const res = {};
 
-        this.root.find('input').each((i, el) => {
+        this.root.find(`${selector} input`).each((i, el) => {
             const name = $(el).attr('name');
             const value = $(el).val();
 
