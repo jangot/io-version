@@ -8,7 +8,6 @@ import { EnvironmentModule } from './module/environment/environment.module';
 import { RuleModule } from './module/rule/rule.module';
 import { VersionModule } from './module/version/version.module';
 import { create as createDataSource } from './utils/factories/dataSource';
-import { async } from "rxjs";
 
 @Module({
     imports: [
