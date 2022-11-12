@@ -14,5 +14,5 @@ export class Application {
     isActive: boolean;
 
     @OneToMany(() => Version, (version) => version.application)
-    versions: Version[]
+    versions: Version[];
 }

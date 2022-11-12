@@ -10,7 +10,7 @@ export class VersionController {
 
     @Post()
     create(@Body() createVersionDto: CreateVersionDto) {
-        return this.versionService.create1(createVersionDto);
+        return this.versionService.create(createVersionDto);
     }
 
     @Get()

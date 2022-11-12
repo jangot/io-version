@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Deploy } from '../deploy/entities/deploy.entity';
 import { Rule } from '../rule/entities/rule.entity';
-import { Version } from '../version/entities/version.entity';
 import { CreateEnvironmentDto } from './dto/create-environment.dto';
 import { UpdateEnvironmentDto } from './dto/update-environment.dto';
 import { Environment } from './entities/environment.entity';
@@ -11,10 +11,13 @@ import { Environment } from './entities/environment.entity';
 export class EnvironmentService {
     constructor(
         @InjectRepository(Environment)
-        private environment: Repository<Environment>,
+        private environmentRepo: Repository<Environment>,
 
         @InjectRepository(Rule)
-        private rule: Repository<Rule>,
+        private ruleRepo: Repository<Rule>,
+
+        @InjectRepository(Deploy)
+        private readonly deployRepo: Repository<Deploy>,
     ) {}
     async create(envDto: CreateEnvironmentDto): Promise<Environment> {
         const env = new Environment();
@@ -22,11 +25,11 @@ export class EnvironmentService {
         env.description = envDto.description;
         env.orderIndex = envDto.orderIndex;
 
-        return this.environment.save(env);
+        return this.environmentRepo.save(env);
     }
 
     async findAll() {
-        return this.environment.find({
+        return this.environmentRepo.find({
             relations: {
                 rules: true
             },
@@ -43,28 +46,30 @@ export class EnvironmentService {
         return `This action returns a #${id} environment`;
     }
     async update(id: number, envDto: UpdateEnvironmentDto) {
-        const env = await this.environment.findOneBy({ id });
+        const env = await this.environmentRepo.findOneBy({ id });
         env.name = envDto.name;
         env.description = envDto.description;
         env.orderIndex = envDto.orderIndex;
 
-        return this.environment.save(env);
+        return this.environmentRepo.save(env);
     }
 
     async remove(id: number) {
-        const env = await this.environment.findOne({
+        const env = await this.environmentRepo.findOne({
             where: { id },
             relations: {
                 rules: true,
+                deploy: true,
             }
         });
 
         await Promise.all([
-            this.rule.remove(env.rules),
+            this.ruleRepo.remove(env.rules),
+            this.deployRepo.remove(env.deploy),
         ]);
 
 
-        return this.environment.remove(env);
+        return this.environmentRepo.remove(env);
     }
 
 }

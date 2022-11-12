@@ -17,7 +17,7 @@ export class VersionService {
         @InjectRepository(Application)
         private readonly applicationRepo: Repository<Application>,
     ) {}
-    async create1(createVersionDto: CreateVersionDto) {
+    async create(createVersionDto: CreateVersionDto) {
         const [application] = await Promise.all([
             this.applicationRepo.findOneBy({ id: createVersionDto.applicationId }),
         ]);

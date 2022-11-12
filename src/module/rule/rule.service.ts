@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { async } from 'rxjs';
 import { Repository } from 'typeorm';
 import { Environment } from '../environment/entities/environment.entity';
 import { CreateRuleDto } from './dto/create-rule.dto';

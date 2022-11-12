@@ -1,3 +1,4 @@
+import { Deploy } from 'src/module/deploy/entities/deploy.entity';
 import { Rule } from 'src/module/rule/entities/rule.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -17,4 +18,7 @@ export class Environment {
 
     @OneToMany(() => Rule, (rule) => rule.environment)
     rules: Rule[];
+
+    @OneToMany(() => Deploy, (deploy) => deploy.environment)
+    deploy: Deploy[];
 }

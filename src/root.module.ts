@@ -8,6 +8,7 @@ import { EnvironmentModule } from './module/environment/environment.module';
 import { RuleModule } from './module/rule/rule.module';
 import { VersionModule } from './module/version/version.module';
 import { create as createDataSource } from './utils/factories/dataSource';
+import { DeployModule } from './module/deploy/deploy.module';
 
 @Module({
     imports: [
@@ -33,6 +34,7 @@ import { create as createDataSource } from './utils/factories/dataSource';
         EnvironmentModule,
         VersionModule,
         RuleModule,
+        DeployModule,
     ],
     controllers: [ApplicationsPageController, EnvironmentsPageController],
     providers: [],
