@@ -6,7 +6,7 @@
 <%- include('partial/load-page-resources', { pageName: 'applications' } ) %>
 </head>
 <body class="applicaiont-page">
-<%- include('partial/error'); %>
+<%- include('partial/messages'); %>
 <%- include('partial/header'); %>
 <div class="container-fluid my-md-4">
     <div class="card mb-4" style="border: none;">
@@ -32,7 +32,7 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="row j-application" data-entity="<%= JSON.stringify(app) %>">
-                    <div class="col-3 j-save-app">
+                    <div class="col-2 j-save-app">
                         <div class="input-group j-update-app">
                             <input type="text" name="name" class="form-control" value="<%= app.name %>">
                             <button type="button" class="btn btn-primary" value="save">
@@ -56,9 +56,35 @@
                         <div class="input-group j-new-version">
                             <input type="text" placeholder="New version" name="version" class="form-control">
                             <button type="button" class="btn btn-primary" value="save" disabled>
-                                <i class="bi bi-save"></i>
+                                <i class="bi bi-plus-circle"></i>
                             </button>
                         </div>
+                    </div>
+                    <div class="col-2">
+                        <form>
+                            <% for (env of environments) { %>
+                                <div class="form-check">
+                                    <input
+                                        name="env_<%= app.id %>"
+                                        value="<%= env.id %>"
+                                        class="form-check-input"
+                                        type="radio"
+                                        id="env_<%= app.id %>_<%= env.id %>"
+                                    >
+                                    <label
+                                        class="form-check-label"
+                                        for="env_<%= app.id %>_<%= env.id %>"
+                                    >
+                                        <%= env.name %>
+                                    </label>
+                                </div>
+                            <% } %>
+                        </form>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-success" value="deploy" disabled>
+                            Deploy
+                        </button>
                     </div>
                 </div>
             </div>

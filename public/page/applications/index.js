@@ -68,6 +68,53 @@ class CreateVersion extends AbstractController {
     }
 }
 
+class Deploy extends AbstractController {
+    findElements() {
+        this.select = this.find('select[name="version"]');
+        this.radio = this.find('input[type="radio"]');
+        this.deploy = this.find('button[value="deploy"]')
+    }
+
+    subscribe() {
+        this.select.add(this.radio).on('click change', () => {
+            const data = this.getData();
+            console.log(data);
+            const disabled = !data.environmentId || !data.versoinId;
+
+            this.deploy.prop('disabled', disabled);
+        });
+        this.deploy.on('click', () => {
+            const data = this.getData();
+
+            this.app.api({
+                method: 'POST',
+                url: '/deploy',
+                data,
+                defaultErrorHandler: {
+                    message: 'Saiving version error.'
+                }
+            }).then(() => {
+                this.app.showSuccessAlert(
+                    `${data.versoinId}
+                    version of "${this.entity.name}"
+                    was deploed to ${data.environmentId}`
+                )
+            });
+        });
+    }
+
+    getData() {
+        const env = this.radio.filter(':checked').val();
+        const ver = this.select.val();
+
+        return {
+            environmentId: Number(env),
+            versoinId: Number(ver),
+        }
+    }
+}
+
 const app = new App('.applicaiont-page');
 app.controller('.j-application', UpdateApp);
 app.controller('.j-application', CreateVersion);
+app.controller('.j-application', Deploy);
