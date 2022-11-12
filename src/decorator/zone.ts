@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 
-export const ApiZone = Zone('api');
+export const ApiZoneController = Zone('api');
 
 export function Zone(ZonePath: string): (p?: string) => ClassDecorator {
     return (path?: string) => {

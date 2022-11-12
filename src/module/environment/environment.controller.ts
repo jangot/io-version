@@ -2,9 +2,9 @@ import { Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { EnvironmentService } from './environment.service';
 import { CreateEnvironmentDto } from './dto/create-environment.dto';
 import { UpdateEnvironmentDto } from './dto/update-environment.dto';
-import { ApiZone } from 'src/decorator/zone';
+import { ApiZoneController } from 'src/decorator/zone';
 
-@ApiZone('environment')
+@ApiZoneController('environment')
 export class EnvironmentController {
     constructor(private readonly environmentService: EnvironmentService) {}
 

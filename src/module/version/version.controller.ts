@@ -2,9 +2,9 @@ import { Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { VersionService } from './version.service';
 import { CreateVersionDto } from './dto/create-version.dto';
 import { UpdateVersionDto } from './dto/update-version.dto';
-import { ApiZone } from 'src/decorator/zone';
+import { ApiZoneController } from 'src/decorator/zone';
 
-@ApiZone('version')
+@ApiZoneController('version')
 export class VersionController {
     constructor(private readonly versionService: VersionService) {}
 

@@ -1,10 +1,10 @@
 import { Body, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { ApiZone } from 'src/decorator/zone';
+import { ApiZoneController } from 'src/decorator/zone';
 import { ApplicationService } from './application.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationDto } from './dto/update-application.dto';
 
-@ApiZone('application')
+@ApiZoneController('application')
 export class ApplicationController {
     constructor(
         private readonly appService: ApplicationService

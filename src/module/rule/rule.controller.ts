@@ -4,10 +4,10 @@ import { CreateRuleDto } from './dto/create-rule.dto';
 import { UpdateRuleDto } from './dto/update-rule.dto';
 import { CreateRuleKeyDto } from './dto/create-rule-key.dto';
 import { RuleKeyService } from './rule-key.service';
-import { ApiZone } from 'src/decorator/zone';
+import { ApiZoneController } from 'src/decorator/zone';
 import { UpdateRuleKeyDto } from './dto/update-rule-key.dto';
 
-@ApiZone('rule')
+@ApiZoneController('rule')
 export class RuleController {
     constructor(
         private readonly ruleService: RuleService,
