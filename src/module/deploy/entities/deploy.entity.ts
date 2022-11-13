@@ -19,4 +19,7 @@ export class Deploy {
 
     @Column()
     environmentId: number;
+
+    @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP' })
+    createdAt: Date
 }

@@ -78,7 +78,6 @@ class Deploy extends AbstractController {
     subscribe() {
         this.select.add(this.radio).on('click change', () => {
             const data = this.getData();
-            console.log(data);
             const disabled = !data.environmentId || !data.versoinId;
 
             this.deploy.prop('disabled', disabled);
