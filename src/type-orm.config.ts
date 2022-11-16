@@ -13,7 +13,7 @@ export default new DataSource({
     port: 5432,
     username: 'postgres',
     password: '123',
-    database: 'io_versions',
+    database: 'io_versions_2',
     migrations: [],
     entities: [],
 });

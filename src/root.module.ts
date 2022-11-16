@@ -21,7 +21,7 @@ import { DeployModule } from './module/deploy/deploy.module';
                     port: 5432,
                     username: 'postgres',
                     password: '123',
-                    database: 'io_versions',
+                    database: 'io_versions_2',
                     entities: [],
                     synchronize: true,
                     autoLoadEntities: true,

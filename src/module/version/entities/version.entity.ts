@@ -8,7 +8,8 @@ export class Version {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: false })
+    // @Column({ nullable: false })
+    @Column('simple-array', { default: '0.0.0' })
     version: string;
 
     @ManyToOne(() => Application, (application) => application.versions, { nullable: false })
