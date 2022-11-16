@@ -48,7 +48,12 @@ export class ApplicationService {
     findOne(id: number): Promise<Application> {
         return this.applicationRepository.findOne({
             where: { id },
-            relations: ['versions']
+            relations: ['versions'],
+            order: {
+                versions: {
+                    version: 'ASC',
+                }
+            }
         });
     }
 

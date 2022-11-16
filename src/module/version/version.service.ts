@@ -33,6 +33,7 @@ export class VersionService {
         return this.versionRepo.find({
             relations: {
                 application: true,
+                deploy: true,
             },
             order: {
                 application: {

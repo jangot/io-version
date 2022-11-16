@@ -48,6 +48,24 @@ export class DeployService {
         });
     }
 
+    findByAppicationId(id: number) {
+        return this.deployRepo.find({
+            where: {
+                version: {
+                    applicationId: id
+                }
+            },
+            relations: {
+                version: true,
+                environment: true,
+            },
+            order: {
+                versionId: 'ASC',
+                environmentId: 'ASC',
+            }
+        });
+    }
+
     findOne(id: number) {
         return this.deployRepo.findOne({
             where: {

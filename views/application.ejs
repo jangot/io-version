@@ -1,20 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>IO Versions</title>
-<%- include('partial/include-resources') %>
+    <title>IO Versions - <%= application.name %></title>
+    <%- include('partial/include-resources') %>
+    <%- include('partial/load-page-resources', { pageName: 'application' } ) %>
 </head>
 
-<body>
+<body class="applicaiont-page">
 <%- include('partial/header'); %>
 
-<div class="container-fluid  my-md-4">
-    <h3>Application: <%= application.name %></h3>
-    <ul>
-    <% for (version of application.versions) { %>
-        <li><%= version.version %></li>
-    <% } %>
-    </ul>
+<div class="container-fluid">
+    <h1 class="mt-4">Application: <%= application.name %></h1>
+    <table class="table">
+        <% for (env of environments) { %>
+            <tr class="table-secondary">
+                <th colspan="2">
+                    <%= env.name %>
+                </th>
+            </tr>
+            <% for (deploy of env.deploy) { %>
+                <% if (appDeploes[deploy.id]) { %>
+                    <tr>
+                        <td><%= appDeploes[deploy.id].version.version %></td>
+                        <td>
+                            <%- moment(appDeploes[deploy.id].createdAt).format('hh:mm:ss <b>D MMM</b>') %>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } %>
+            <tr>
+                <td>
+                    <select class="form-control">
+                        <option value="">Select version</option>
+                        <% for (ver of application.versions) { %>
+                            <option value="<%= ver.id %>"><%= ver.version %></option>
+                        <% } %>
+                    </select>
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        <% } %>
+    </table>
+
+
 </div>
 
 <%- include('partial/footer') %>

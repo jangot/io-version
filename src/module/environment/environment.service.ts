@@ -31,12 +31,16 @@ export class EnvironmentService {
     async findAll() {
         return this.environmentRepo.find({
             relations: {
-                rules: true
+                rules: true,
+                deploy: true
             },
             order: {
                 name: 'ASC',
                 rules: {
                     keyId: 'ASC'
+                },
+                deploy: {
+                    createdAt: 'DESC'
                 }
             }
         });

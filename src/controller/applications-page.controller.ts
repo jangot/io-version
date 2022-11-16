@@ -1,6 +1,8 @@
-import { Controller, Get, Param, Post, Render } from '@nestjs/common';
+import { Controller, Get, Param, Render } from '@nestjs/common';
+import * as moment from 'moment';
 import { ViewContext } from 'src/decorator/view-context';
 import { ApplicationService } from 'src/module/application/application.service';
+import { DeployService } from 'src/module/deploy/deploy.service';
 import { EnvironmentService } from 'src/module/environment/environment.service';
 import { VersionService } from 'src/module/version/version.service';
 
@@ -10,6 +12,7 @@ export class ApplicationsPageController {
         private readonly appService: ApplicationService,
         private readonly environmentService: EnvironmentService,
         private readonly versionService: VersionService,
+        private readonly deployService: DeployService,
     ){}
 
     @Get('/')
@@ -37,12 +40,30 @@ export class ApplicationsPageController {
     @Get(':id')
     @Render('application.ejs')
     async applicationItemPage(@Param('id') id: string, @ViewContext() ctx) {
-        const application = await this.appService.findOne(+id);
+        const [
+            application,
+            environments,
+            versions,
+            deploes
+        ] = await Promise.all([
+            this.appService.findOne(+id),
+            this.environmentService.findAll(),
+            this.versionService.findAll(),
+            this.deployService.findByAppicationId(+id)
+        ]);
 
         return {
+            moment,
+            ctx,
             id,
             application,
-            ctx
+            environments,
+            versions,
+            appDeploes: deploes.reduce((memo, it) => {
+                memo[it.id] = it;
+
+                return memo;
+            }, {})
         }
     }
 }

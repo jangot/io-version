@@ -14,6 +14,9 @@ export class Version {
     @ManyToOne(() => Application, (application) => application.versions, { nullable: false })
     application: Application;
 
+    @Column()
+    applicationId: number;
+
     @OneToMany(() => Deploy, (deploy) => deploy.version)
     deploy: Deploy[]
 

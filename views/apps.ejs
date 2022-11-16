@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="h-100">
 <head>
-<title>IO Versions - rules</title>
+<title>IO Versions - Apps list</title>
 <%- include('partial/include-resources') %>
 <%- include('partial/load-page-resources', { pageName: 'applications' } ) %>
 </head>
@@ -31,6 +31,9 @@
     <% for (app of applications) { %>
         <div class="card mb-4">
             <div class="card-body">
+                <div class="row mb-2">
+                    <a href="/applications/<%= app.id %>">Open app page</a>
+                </div>
                 <div class="row j-application" data-entity="<%= JSON.stringify(app) %>">
                     <div class="col-2 j-save-app">
                         <div class="input-group j-update-app">
