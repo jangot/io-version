@@ -9,38 +9,61 @@
 <body class="applicaiont-page">
 <%- include('partial/header'); %>
 
-<div class="container-fluid">
-    <h1 class="mt-4">Application: <%= application.name %></h1>
+<div class="container-fluid j-app" data-entity="<%= JSON.stringify(application) %>">
+    <h1 class="mt-4 mb-4">Application: <%= application.name %></h1>
+
+    <div class="coll mb-4">
+        <div class="row">
+            <div class="col-2">
+                <div class="input-group j-new-version">
+                    <input type="text" placeholder="New version" name="version" class="form-control">
+                    <button type="button" class="btn btn-primary" value="save" disabled>
+                        <i class="bi bi-plus-circle"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <table class="table">
         <% for (env of environments) { %>
-            <tr class="table-secondary">
-                <th colspan="2">
-                    <%= env.name %>
-                </th>
-            </tr>
-            <% for (deploy of env.deploy) { %>
-                <% if (appDeploes[deploy.id]) { %>
-                    <tr>
-                        <td><%= appDeploes[deploy.id].version.version %></td>
-                        <td>
-                            <%- moment(appDeploes[deploy.id].createdAt).format('hh:mm:ss <b>D MMM</b>') %>
-                        </td>
-                    </tr>
+            <tbody class="j-deploy" data-entity="<%= JSON.stringify(env) %>">
+                <tr class="table-secondary">
+                    <th colspan="3">
+                        <%= env.name %>
+                    </th>
+                </tr>
+                <% for (deploy of env.deploy) { %>
+                    <% if (appDeploes[deploy.id]) { %>
+                        <tr class="j-remove-deploy" data-entity="<%= JSON.stringify(deploy) %>">
+                            <td>
+                                <button type="button" class="btn btn-danger" value="remove">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </button>
+                            </td>
+                            <td><%= appDeploes[deploy.id].version.version %></td>
+                            <td>
+                                <%- moment(appDeploes[deploy.id].createdAt).format('hh:mm:ss <b>D MMM</b>') %>
+                            </td>
+                        </tr>
+                    <% } %>
                 <% } %>
-            <% } %>
-            <tr>
-                <td>
-                    <select class="form-control">
-                        <option value="">Select version</option>
-                        <% for (ver of application.versions) { %>
-                            <option value="<%= ver.id %>"><%= ver.version %></option>
-                        <% } %>
-                    </select>
-                </td>
-                <td>
-
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        <button type="button" disabled class="btn btn-primary j-save-version" value="save">
+                            <i class="bi bi-save"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <select class="form-control j-deploy-version">
+                            <option value="">Select version</option>
+                            <% for (ver of application.versions) { %>
+                                <option value="<%= ver.id %>"><%= ver.version %></option>
+                            <% } %>
+                        </select>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
         <% } %>
     </table>
 

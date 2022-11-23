@@ -35,9 +35,9 @@ export class EnvironmentService {
                 deploy: true
             },
             order: {
-                name: 'ASC',
+                orderIndex: 'ASC',
                 rules: {
-                    keyId: 'ASC'
+                    keyId: 'ASC',
                 },
                 deploy: {
                     createdAt: 'DESC'
