@@ -96,6 +96,43 @@ class EditEnv {
     }
 }
 
+class CreateEnv {
+    constructor($el) {
+        this.$el = $el;
+        this.$name = $el.find('input[name="name"]');
+        this.$description = $el.find('input[name="description"]');
+        this.$orderIndex = $el.find('input[name="orderIndex"]');
+        this.$btnAdd = $el.find('.j-add');
+
+        this.subscribe();
+    }
+
+    subscribe() {
+        this.$name.add(this.$description).keyup(() => {
+            const data = this.getData();
+            const disabled = !data.name || !data.description;
+            this.$btnAdd.prop('disabled', disabled);
+        });
+        this.$btnAdd.click(() => {
+            api({
+                method: 'POST',
+                url: '/environment',
+                data: this.getData(),
+            })
+                .then(() => location.reload())
+                .catch((err) => console.error(err));
+        });
+    }
+
+    getData() {
+        return {
+            name: this.$name.val(),
+            description: this.$description.val(),
+            orderIndex: +this.$orderIndex.val(),
+        }
+    }
+}
+
 class KeyEdit {
     constructor($root) {
         this.$root = $root;
@@ -149,4 +186,5 @@ $(() => {
     $('.j-rule-form').each((i, el) => new EditRule($(el)));
     $('.j-env-form').each((i, el) => new EditEnv($(el)));
     $('.j-keys').each((i, el) => new KeyEdit($(el)));
+    $('.j-add-env').each((i, el) => new CreateEnv($(el)));
 });

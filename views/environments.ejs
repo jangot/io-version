@@ -13,6 +13,7 @@
         <div class="col-3 position-relative">
             <div class="card position-sticky top-0 start-0">
                 <div class="card-body">
+                    <h5 class="card-title">Keys</h5>
                     <% for (key of keys) { %>
                         <div class="input-group mb-4 j-keys" data-key="<%= JSON.stringify(key) %>">
                             <input type="text" name="name" class="form-control" value="<%= key.name %>">
@@ -44,6 +45,25 @@
                 <%- include('environments/item'); %>
                 <br>
             <% } %>
+            <div class="card j-add-env">
+                <div class="card-body">
+                    <h5 class="card-title">New environment</h5>
+                    <div class="col-4 j-env-form">
+                        <div class="mb-4">
+                            <input type="text" class="form-control" name="name" placeholder="name">
+                        </div>
+                        <div class="mb-4">
+                            <input type="text" class="form-control" name="description" placeholder="description">
+                        </div>
+                        <div class="mb-4">
+                            <input type="number" class="form-control" name="orderIndex" value="1">
+                        </div>
+                        <div class="mb-4">
+                            <button class="btn btn-primary j-add" disabled>Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
